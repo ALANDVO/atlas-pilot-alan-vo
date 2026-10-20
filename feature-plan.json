@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "current_feature": "project-skeleton",
+  "features": [
+    {
+      "id": "project-skeleton",
+      "title": "Project skeleton with FastAPI + React + Vite + Docker + CI",
+      "status": "in_progress",
+      "acceptance": [
+        "FastAPI app starts and responds to /health",
+        "React + TypeScript + Vite frontend builds and serves",
+        "Docker compose brings up backend, frontend, Keycloak, PostgreSQL",
+        "CI workflow runs backend tests and frontend build/test",
+        "README with install/run/test steps",
+        "portfolio.json with required fields"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "auth-oidc",
+      "title": "OIDC authentication with Keycloak (PKCE flow)",
+      "status": "planned",
+      "acceptance": [
+        "Login redirects to Keycloak",
+        "Callback exchanges code for tokens with PKCE",
+        "Access token stored in memory only",
+        "Protected API endpoints require valid token",
+        "Logout clears session"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "agent-catalog-core",
+      "title": "Agent catalog domain engine with CRUD + search + import/export",
+      "status": "planned",
+      "acceptance": [
+        "CRUD API for agents with validation",
+        "Search/filter/pagination",
+        "Import from markdown/JSON",
+        "Export to markdown/JSON",
+        "SQLite persistence with audit log"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "agent-evaluation-engine",
+      "title": "Agent evaluation engine (AI/ML focus)",
+      "status": "planned",
+      "acceptance": [
+        "Define evaluation criteria (deterministic)",
+        "Run evaluations against agent responses",
+        "Score and store results",
+        "Compare agents side-by-side",
+        "Export evaluation report"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "llm-adapter-framework",
+      "title": "LLM adapter framework (OpenAI-compatible, Anthropic, Gemini, Ollama)",
+      "status": "planned",
+      "acceptance": [
+        "Unified interface for all providers",
+        "Configurable provider/model/endpoint",
+        "Bounded timeouts and redacted errors",
+        "Keys only server-side"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "frontend-dashboard",
+      "title": "Frontend dashboard with agent management UI",
+      "status": "planned",
+      "acceptance": [
+        "Agent list with search/filter",
+        "Create/edit agent modal",
+        "Agent detail view",
+        "Import/export UI",
+        "Evaluation results view"
+      ],
+      "implementation": [],
+      "tests": []
+    }
+  ]
+}
