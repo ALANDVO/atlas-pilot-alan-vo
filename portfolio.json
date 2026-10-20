@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "atlas-pilot-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: atlas-pilot-alan-vo",
+  "workflows": [
+    "Import and manage AI agent definitions with metadata, categories, and versioned content",
+    "Define deterministic evaluation criteria and run reproducible benchmarks against agent responses",
+    "Compare agents side-by-side with scored evaluations and export detailed reports"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}

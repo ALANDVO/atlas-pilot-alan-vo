@@ -1,0 +1,87 @@
+{
+  "realm": "atlas-pilot",
+  "enabled": true,
+  "displayName": "Atlas Pilot",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Atlas Pilot</span></div>",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "clients": [
+    {
+      "clientId": "atlas-pilot-client",
+      "name": "Atlas Pilot Frontend",
+      "description": "SPA client for Atlas Pilot frontend",
+      "rootUrl": "http://localhost:5173",
+      "adminUrl": "http://localhost:5173",
+      "baseUrl": "http://localhost:5173",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${KEYCLOAK_CLIENT_SECRET}",
+      "redirectUris": [
+        "http://localhost:5173/*",
+        "http://localhost/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173",
+        "http://localhost"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "access.token.lifespan": "1800",
+        "client.secret.creation.time": "0"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "role_list",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "viewer",
+        "description": "Read-only access to agents and evaluations"
+      },
+      {
+        "name": "operator",
+        "description": "Can create, update agents and run evaluations"
+      },
+      {
+        "name": "admin",
+        "description": "Full administrative access"
+      }
+    ]
+  },
+  "defaultRoles": {
+    "realm": [
+      "viewer"
+    ]
+  }
+}
