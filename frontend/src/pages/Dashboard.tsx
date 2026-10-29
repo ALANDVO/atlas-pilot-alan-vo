@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export function Dashboard() {
@@ -15,17 +14,17 @@ export function Dashboard() {
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h2 className="text-xl font-semibold mb-2">Agent Catalog</h2>
             <p className="text-gray-600 mb-4">Browse, search, and manage AI agents</p>
-            <Link href="/agents" className="text-blue-600 hover:underline">View Catalog →</Link>
+            <Link to="/agents" className="text-blue-600 hover:underline">View Catalog →</Link>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h2 className="text-xl font-semibold mb-2">Evaluations</h2>
             <p className="text-gray-600 mb-4">Run and compare agent evaluations</p>
-            <Link href="/evaluations" className="text-blue-600 hover:underline">View Evaluations →</Link>
+            <Link to="/evaluations" className="text-blue-600 hover:underline">View Evaluations →</Link>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h2 className="text-xl font-semibold mb-2">Settings</h2>
             <p className="text-gray-600 mb-4">Configure LLM providers and integrations</p>
-            <Link href="/settings" className="text-blue-600 hover:underline">Open Settings →</Link>
+            <Link to="/settings" className="text-blue-600 hover:underline">Open Settings →</Link>
           </div>
         </div>
       </main>

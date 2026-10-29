@@ -10,7 +10,7 @@ project-skeleton
 
 ### project-skeleton — Project skeleton with FastAPI + React + Vite + Docker + CI
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - FastAPI app starts and responds to /health
@@ -19,6 +19,10 @@ Acceptance:
 - CI workflow runs backend tests and frontend build/test
 - README with install/run/test steps
 - portfolio.json with required fields
+
+Implementation: `backend/app/main.py`, `backend/app/api/health.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/app/models/__init__.py`, `backend/tests/test_health.py`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/pages/HealthCheck.tsx`, `frontend/src/pages/Dashboard.tsx`, `frontend/src/api/client.ts`, `compose.yaml`, `.github/workflows/ci.yml`
+
+Tests: `backend/tests/test_health.py`, `frontend/src/pages/Dashboard.test.tsx`
 
 ### auth-oidc — OIDC authentication with Keycloak (PKCE flow)
 

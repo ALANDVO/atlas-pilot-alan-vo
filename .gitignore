@@ -50,3 +50,4 @@ coverage/
 *.egg-info/
 dist/
 build/
+venv/
