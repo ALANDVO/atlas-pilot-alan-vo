@@ -1,9 +1,16 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { Dashboard } from '../pages/Dashboard'
+import { AuthProvider } from '../context/AuthContext'
 
 function renderWithRouter(ui: React.ReactElement) {
-  return render(<BrowserRouter>{ui}</BrowserRouter>)
+  return render(
+    <BrowserRouter>
+      <AuthProvider>
+        {ui}
+      </AuthProvider>
+    </BrowserRouter>
+  )
 }
 
 describe('Dashboard', () => {

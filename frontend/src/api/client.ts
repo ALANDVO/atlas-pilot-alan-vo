@@ -13,6 +13,7 @@ class ApiClient {
         'Content-Type': 'application/json',
       },
       timeout: 30000,
+      withCredentials: true,
     })
 
     this.client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
