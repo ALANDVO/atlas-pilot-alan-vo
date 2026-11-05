@@ -1,1 +1,1 @@
-from app.api import health
+from app.api import health, auth

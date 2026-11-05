@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     KEYCLOAK_REALM: str = ""
     KEYCLOAK_CLIENT_ID: str = ""
     KEYCLOAK_CLIENT_SECRET: str = ""
+    KEYCLOAK_REDIRECT_URI: str = "http://localhost:5173/callback"
 
     # LLM
     LLM_API_KEY: str = ""
