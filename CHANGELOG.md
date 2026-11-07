@@ -40,3 +40,7 @@ Partial code published for continued development. Known issues: STATUS.md.
 - Fixed react-router-dom Link component usage (to vs href)
 - Fixed TypeScript types for vitest globals
 - Fixed frontend test setup (globalThis vs global)
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
