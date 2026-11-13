@@ -68,7 +68,9 @@ def get_signing_key(token: str, jwks: Dict[str, Any]) -> Dict[str, Any]:
 
 
 async def verify_token(token: str) -> Dict[str, Any]:
-    """Verify a JWT access token against Keycloak JWKS.
+    """Verify a JWT access token.
+    
+    Supports both Keycloak RS256 tokens (with kid) and internal HS256 tokens.
     
     Args:
         token: JWT access token
@@ -81,26 +83,41 @@ async def verify_token(token: str) -> Dict[str, Any]:
         ExpiredSignatureError: If token is expired
         JWTClaimsError: If claims validation fails
     """
-    jwks = await get_jwks()
-    signing_key = get_signing_key(token, jwks)
+    header = jwt.get_unverified_header(token)
+    kid = header.get("kid")
+    alg = header.get("alg")
     
-    # Decode and verify
-    claims = jwt.decode(
-        token,
-        signing_key,
-        algorithms=["RS256"],
-        audience=settings.KEYCLOAK_CLIENT_ID,
-        issuer=f"{settings.KEYCLOAK_URL}/realms/{settings.KEYCLOAK_REALM}",
-        options={
-            "verify_aud": True,
-            "verify_iss": True,
-            "verify_exp": True,
-        }
-    )
+    if kid:
+        # Keycloak token (RS256)
+        jwks = await get_jwks()
+        signing_key = get_signing_key(token, jwks)
+        # Verify with Keycloak audience/issuer
+        claims = jwt.decode(
+            token,
+            signing_key,
+            algorithms=["RS256"],
+            audience=settings.KEYCLOAK_CLIENT_ID,
+            issuer=f"{settings.KEYCLOAK_URL}/realms/{settings.KEYCLOAK_REALM}",
+            options={
+                "verify_aud": True,
+                "verify_iss": True,
+                "verify_exp": True,
+            }
+        )
+    elif alg == "HS256":
+        # Internal token (HS256)
+        claims = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=["HS256"],
+            options={
+                "verify_exp": True,
+            }
+        )
+    else:
+        raise JWTError(f"Unsupported token algorithm: {alg}")
     
     return claims
-
-
 def decode_token(token: str) -> Dict[str, Any]:
     """Decode a JWT token without verification (for debugging).
     
