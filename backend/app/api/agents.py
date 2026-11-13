@@ -196,3 +196,15 @@ async def delete_agent(
     await db.commit()
 
 
+
+
+@router.get("/export")
+async def export_agents(
+    db: AsyncSession = Depends(get_db),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """Export all agents as JSON."""
+    from sqlalchemy import select
+    result = await db.execute(select(Agent))
+    agents = result.scalars().all()
+    return [AgentResponse.model_validate(agent).model_dump() for agent in agents]
