@@ -28,9 +28,24 @@ class CurrentUser:
         return any(role in self.roles for role in roles)
 
 
-async def get_current_user(request: Request) -> CurrentUser:
-    """Get current user from access token cookie."""
+async def _get_token_from_request(request: Request) -> Optional[str]:
+    """Extract access token from cookies or Authorization header."""
+    # First try cookie (production flow)
     access_token = request.cookies.get("access_token")
+    if access_token:
+        return access_token
+    
+    # Fall back to Authorization header
+    authorization: str = request.headers.get("Authorization", "")
+    if authorization.startswith("Bearer "):
+        return authorization[7:]
+    
+    return None
+
+
+async def get_current_user(request: Request) -> CurrentUser:
+    """Get current user from access token (cookie or Authorization header)."""
+    access_token = await _get_token_from_request(request)
     if not access_token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -51,8 +66,11 @@ async def get_current_user(request: Request) -> CurrentUser:
 
 
 async def get_optional_user(request: Request) -> Optional[CurrentUser]:
-    """Get current user if authenticated, otherwise None."""
-    access_token = request.cookies.get("access_token")
+    """Get current user if authenticated, otherwise None.
+    
+    Supports both cookie-based and Authorization header-based tokens.
+    """
+    access_token = await _get_token_from_request(request)
     if not access_token:
         return None
     
@@ -80,8 +98,8 @@ def require_any_role(roles: List[str]):
     async def role_checker(user: CurrentUser = Depends(get_current_user)) -> CurrentUser:
         if not user.has_any_role(roles):
             raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Required one of roles: {roles}",
-            )
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Required one of roles: {roles}",
+        )
         return user
     return role_checker

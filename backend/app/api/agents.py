@@ -42,6 +42,31 @@ class AgentResponse(AgentBase):
     created_at: str
     updated_at: str
 
+def _agent_to_dto(agent):
+    """Convert SQLAlchemy Agent model to AgentResponse DTO.
+    
+    Converts datetime fields to ISO format strings for Pydantic V2 from_attributes compatibility.
+    """
+    from datetime import datetime
+    created = agent.created_at
+    updated = agent.updated_at
+    if isinstance(created, datetime):
+        created = created.isoformat()
+    if isinstance(updated, datetime):
+        updated = updated.isoformat()
+    return AgentResponse(
+        id=agent.id,
+        name=agent.name,
+        slug=agent.slug,
+        description=agent.description,
+        category=agent.category,
+        color=agent.color,
+        content=agent.content,
+        source_format=agent.source_format,
+        created_at=created,
+        updated_at=updated,
+    )
+
     class Config:
         from_attributes = True
 
@@ -92,7 +117,7 @@ async def list_agents(
     total_pages = (total + page_size - 1) // page_size
 
     return AgentListResponse(
-        items=[AgentResponse.model_validate(agent) for agent in agents],
+        items=[_agent_to_dto(agent) for agent in agents],
         total=total,
         page=page,
         page_size=page_size,
@@ -123,7 +148,7 @@ async def get_agent(
     if not agent:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Agent not found")
 
-    return AgentResponse.model_validate(agent)
+    return _agent_to_dto(agent)
 
 
 @router.post("", response_model=AgentResponse, status_code=status.HTTP_201_CREATED)
@@ -143,7 +168,7 @@ async def create_agent(
     await db.commit()
     await db.refresh(agent)
 
-    return AgentResponse.model_validate(agent)
+    return _agent_to_dto(agent)
 
 
 @router.put("/{agent_id}", response_model=AgentResponse)
@@ -176,7 +201,7 @@ async def update_agent(
     await db.commit()
     await db.refresh(agent)
 
-    return AgentResponse.model_validate(agent)
+    return _agent_to_dto(agent)
 
 
 @router.delete("/{agent_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -207,4 +232,4 @@ async def export_agents(
     from sqlalchemy import select
     result = await db.execute(select(Agent))
     agents = result.scalars().all()
-    return [AgentResponse.model_validate(agent).model_dump() for agent in agents]
+    return [_agent_to_dto(agent).model_dump() for agent in agents]
