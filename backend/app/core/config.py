@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     )
 
     APP_NAME: str = "atlas-pilot-alan-vo"
-    APP_VERSION: str = "1.0.0"
+    APP_VERSION: str = "1.5.0"
     API_V1_PREFIX: str = "/api/v1"
 
     # Database
